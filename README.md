@@ -6,7 +6,7 @@ github: https://github.com/Bennylyu223/fruit_classification.git
 > 1. 打开项目的根目录
 > 2. cmd中输入两行命令
 >> ```shell
->> set FLASK_APP= flaskr
+>> set FLASK_APP=flaskr
 >> flask run
 >> ```
 
