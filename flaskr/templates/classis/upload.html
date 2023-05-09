@@ -5,11 +5,77 @@
 {% endblock %}
 
 {% block content %}
-<form method="post" enctype="multipart/form-data">
-    <label for="photo">图片：</label>
-    <input type="file" id="photo" name="file">
-    <button type="submit">提交</button>
-</form>
+<div class="space"></div>
+  <div ref="drag" class="drag">
+    <div class="drag-icon-box">
+      <!-- 采用的是 element-ui 的图标 -->
+      <i class="el-icon-upload"></i>
+    </div>
+    <div class="drag-message">
+      <span class="drag-message-title">将文件拖动到此处，或</span>
+      <label for="file" class="drag-message-label">
+        <input
+          class="drag-message-input"
+          type="file"
+          id="file"
+          name="file"
+          @change="handleFileChange"
+        />
+        <span class="drag-message-manual">点击上传</span>
+      </label>
+    </div>
+  </div>
+
+<!---->
+<script>
+export default {
+  data() {
+    return {
+      file: null
+    }
+  },
+  async mounted() {
+    // 给容器绑定相关的拖拽事件
+    this.bindEvents()
+  },
+  methods: {
+    bindEvents() {
+      const drag = this.$refs.drag
+      // 被拖动的对象进入目标容器
+      drag.addEventListener('dragover', e => {
+        e.preventDefault()
+        drag.style.borderColor = 'red'
+      })
+      // 被拖动的对象离开目标容器
+      drag.addEventListener('dragleave', e => {
+        e.preventDefault()
+        drag.style.borderColor = '#eee'
+      })
+      // 被拖动的对象进入目标容器，释放鼠标键
+      drag.addEventListener('drop', e => {
+        e.preventDefault()
+        drag.style.borderColor = '#eee'
+        const fileList = e.dataTransfer.files
+        this.file = fileList[0]
+        this.uploadFile()
+      })
+    },
+    async uploadFile() {
+      const form = new FormData()
+      form.append('name', 'file')
+      form.append('file', this.file)
+      const res = await axios.post('/upload', form)
+    },
+    handleFileChange(e) {
+      const file = e.target.files[0]
+      if (!file) return
+      this.file = file
+      this.uploadFile()
+    }
+  }
+}
+</script>
+
 {% if pre %}
     <div>{{ pre }}</div>
 {% endif %}

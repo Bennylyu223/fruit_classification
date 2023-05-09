@@ -3,7 +3,7 @@ import os
 from flask import Flask, request
 
 
-
+#  创建app，并设定其config属性
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
@@ -12,6 +12,7 @@ def create_app(test_config=None):
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite')
     )
 
+#   如果没有config
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
     else:

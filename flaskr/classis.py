@@ -3,6 +3,7 @@ from flask import (
 )
 from flaskr.predict import pre
 from werkzeug.utils import secure_filename
+import os
 
 
 bp = Blueprint('classis', __name__)
@@ -26,13 +27,16 @@ def upload():
         if error is not None:
             flash(error)
 
+        # 进行预测操作
         else:
             filename = secure_filename(f.filename)
             path = "flaskr/static/user_images/{}".format(filename)
             f.save(path)
-            pre_path = 'flaskr/static/user_images/{}'.format(filename)
-            pre_result = pre(pre_path)
+            # pre_path = 'flaskr/static/user_images/{}'.format(filename)
+            pre_result = pre(path)
             return render_template('classis/upload.html', pre=pre_result)
+
+            os.remove("static/user_images/"+filename)
 
     return render_template('classis/upload.html', pre=pre_result)
 

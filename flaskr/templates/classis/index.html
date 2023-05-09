@@ -5,11 +5,12 @@
 {% endblock %}
 
 {% block content %}
+
     {% if g.user %}
-    <div>你接下可以做的事情</div>
+    <img src="../../static/question.jpg" alt="质疑">
     <ul>
         <li><a class="action" href="{{url_for('classis.upload')}}">预测图片结果</a></li>
-        <li><a class="action" href="">查看历史记录</a></li>
+<!--        <li><a class="action" href="">查看历史记录</a></li>-->
     </ul>
     {% else %}
     <div class="alert">你尚未登录！请登陆以后再执行操作。</div>

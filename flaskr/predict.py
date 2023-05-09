@@ -45,8 +45,7 @@ def pre(s):
         predict = torch.softmax(output, dim=0)
         predict_cla = torch.argmax(predict).numpy()
 
-        return "图片的类别是: {}   概率为: {:.3}".format(class_indict[str(predict_cla)],
-                                                predict[predict_cla].numpy())
+        return "图片的类别是: {}".format(class_indict[str(predict_cla)])
 
     # print_res = "class: {}   prob: {:.3}".format(class_indict[str(predict_cla)],
     #                                              predict[predict_cla].numpy())

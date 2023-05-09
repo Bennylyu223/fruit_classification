@@ -34,7 +34,6 @@ def register():
                 error = f"用户{username}已经注册了！"
             else:
                 return redirect(url_for("auth.login"))
-
         flash(error)
     return render_template('auth/register.html')
 
@@ -50,6 +49,7 @@ def login_required(view):
     return wrapped_view
 
 
+# 登录蓝图
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
@@ -57,15 +57,14 @@ def login():
         password = request.form['password']
         db = get_db()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?',(username,)
-        ).fetchone()
 
+        user = db.execute(
+            'SELECT * FROM user WHERE username = ?', (username,)
+        ).fetchone()
         if user is None:
             error = '无法找到输入的用户名'
         elif not check_password_hash(user['password'], password):
             error = '输入的密码不正确'
-
         if error is None:
             session.clear()
             session['user_id'] = user['id']
